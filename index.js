@@ -17,7 +17,7 @@ const testOnvif = async () => {
           pass: password,
         });
 
-        await device.init();
+        // await device.init();
 
         const url = device.getUdpStreamUrl();
         console.log("==udp link==>", url);
