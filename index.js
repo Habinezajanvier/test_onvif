@@ -1,7 +1,7 @@
 const onvif = require("node-onvif");
 
-const username = "nivetheni";
-const password = "Chandrika5";
+const username = "test";
+const password = "test123456789";
 
 const testOnvif = async () => {
   try {
