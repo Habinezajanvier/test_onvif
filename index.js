@@ -3,9 +3,50 @@ const onvif = require("node-onvif");
 const username = "test";
 const password = "test123456789";
 
+const onvDevices = [
+  {
+    hardware: 'H4W2PER3',
+    location: 'china',
+    name: 'Honeywell',
+    scopes: [
+      'onvif://www.onvif.org/location/country/china',
+      'onvif://www.onvif.org/name/Honeywell',
+      'onvif://www.onvif.org/hardware/H4W2PER3',
+      'onvif://www.onvif.org/Profile/Streaming',
+      'onvif://www.onvif.org/type/Network_Video_Transmitter',
+      'onvif://www.onvif.org/extension/unique_identifier',
+      'onvif://www.onvif.org/extension/Honeywell_mask/37777',
+      'onvif://www.onvif.org/MAC/00:40:84:f6:9e:2c',
+      'onvif://www.onvif.org/Profile/Q/Operational',
+    ],
+    types: ['dn:NetworkVideoTransmitter', 'tds:Device'],
+    urn: 'uuid:eaadf637-a191-4ae7-8156-07433934718b',
+    xaddrs: ['http://192.168.1.103/onvif/device_service'],
+  },
+  {
+    hardware: 'H4W2PER3',
+    location: 'china',
+    name: 'Honeywell',
+    scopes: [
+      'onvif://www.onvif.org/location/country/china',
+      'onvif://www.onvif.org/name/Honeywell',
+      'onvif://www.onvif.org/hardware/H4W2PER3',
+      'onvif://www.onvif.org/Profile/Streaming',
+      'onvif://www.onvif.org/type/Network_Video_Transmitter',
+      'onvif://www.onvif.org/extension/unique_identifier',
+      'onvif://www.onvif.org/extension/Honeywell_mask/37777',
+      'onvif://www.onvif.org/MAC/00:40:84:f6:9e:c8',
+      'onvif://www.onvif.org/Profile/Q/Operational',
+    ],
+    types: ['dn:NetworkVideoTransmitter', 'tds:Device'],
+    urn: 'uuid:626d6410-d723-4dc8-a867-e843c0905dcb',
+    xaddrs: ['http://192.168.1.2/onvif/device_service'],
+  },
+];
+
 const testOnvif = async () => {
   try {
-    const onvDevices = await onvif.startProbe();
+    // const onvDevices = await onvif.startProbe();
 
     console.log("==Discovered devices==>", JSON.stringify(onvDevices, null, 2));
 
@@ -30,30 +71,19 @@ const testOnvif = async () => {
   }
 };
 
-// const device = new onvif.OnvifDevice({
-//   xaddr: "http://192.168.1.2/onvif/device_service",
-//   user: username,
-//   pass: password,
-// });
+const url = "http://192.168.1.2:80/onvif/device_service";
 
-// device
-//   .init()
-//   .then((device_info) => {
-//     const id = number - decrement;
-//     decrement = decrement - 1;
-//     const device_obj = {};
-//     device_obj["device_id"] = id;
-//     device_obj["location"] = {
-//       latitude: "12.972442",
-//       longitude: "77.580643",
-//     };
-//     device_obj["device_url"] = device.getUdpStreamUrl();
-//     const device_obj_str = JSON.stringify(device_obj);
-//     console.log({ device_obj_str });
-//     // nc.publish("device.add.stream", Buffer.from(device_obj_str));
-//   })
-//   .catch((error) => {
-//     console.error("===first onvif error===>", error);
-//   });
+fetch(url, {
+  method: "POST",
+  headers: {
+    //'Content-Type': 'application/soap+xml; charset=utf-8; action="http://www.onvif.org/ver10/device/wsdl/GetScopes"',
+    'Content-Type': 'application/soap+xml; charset=utf-8;',
+    'Content-Length': Buffer.byteLength(soap)
+  }
+}).then((data)=>{
+  console.log("data from fetch", data.json());
+}).catch(error=>{
+  console.log("==fetch error==>", error)
+});
 
-testOnvif();
+// testOnvif();
